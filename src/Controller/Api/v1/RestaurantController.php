@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Restaurants;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Movie controller.
@@ -23,13 +24,16 @@ class RestaurantController extends AbstractController
      */
     public function getMovieAction(Request $request)
     {
+        $message = 'Data fetched successfully!';
+        $sortBy = 'open';
+
         $restaurants = $this->getDoctrine()
             ->getRepository(Restaurants::class)
-            ->findall();
-
+            ->fetchData($request->get('sort_by'), $request->get('search_by'));
         return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/RestaurantController.php',
+            'message' => $message,
+            'sorty_by' => "Data sorted By '$sortBy'",
+            'total' => count($restaurants),
             'data' => $restaurants
         ]);
     }

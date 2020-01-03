@@ -18,147 +18,147 @@ class Restaurants
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    public $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
-    private $name;
+    public $name;
 
     /**
      * @var string
      *
      * @ORM\Column(name="branch", type="string", length=255, nullable=false)
      */
-    private $branch;
+    public $branch;
 
     /**
      * @var string
      *
      * @ORM\Column(name="phone", type="string", length=255, nullable=false)
      */
-    private $phone;
+    public $phone;
 
     /**
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=false)
      */
-    private $email;
+    public $email;
 
     /**
      * @var string
      *
      * @ORM\Column(name="logo", type="string", length=255, nullable=false)
      */
-    private $logo;
+    public $logo;
 
     /**
      * @var string
      *
      * @ORM\Column(name="address", type="string", length=255, nullable=false)
      */
-    private $address;
+    public $address;
 
     /**
      * @var string
      *
      * @ORM\Column(name="housenumber", type="string", length=255, nullable=false)
      */
-    private $housenumber;
+    public $housenumber;
 
     /**
      * @var string
      *
      * @ORM\Column(name="postcode", type="string", length=255, nullable=false)
      */
-    private $postcode;
+    public $postcode;
 
     /**
      * @var string
      *
      * @ORM\Column(name="city", type="string", length=255, nullable=false)
      */
-    private $city;
+    public $city;
 
     /**
      * @var string
      *
      * @ORM\Column(name="latitude", type="string", length=255, nullable=false)
      */
-    private $latitude;
+    public $latitude;
 
     /**
      * @var string
      *
      * @ORM\Column(name="longitude", type="string", length=255, nullable=false)
      */
-    private $longitude;
+    public $longitude;
 
     /**
      * @var string
      *
      * @ORM\Column(name="url", type="string", length=255, nullable=false)
      */
-    private $url;
+    public $url;
 
     /**
      * @var int
      *
      * @ORM\Column(name="open", type="integer", nullable=false)
      */
-    private $open;
+    public $open;
 
     /**
      * @var int
      *
      * @ORM\Column(name="bestMatch", type="integer", nullable=false)
      */
-    private $bestmatch;
+    public $bestmatch;
 
     /**
      * @var int
      *
      * @ORM\Column(name="newestScore", type="integer", nullable=false)
      */
-    private $newestscore;
+    public $newestscore;
 
     /**
      * @var int
      *
      * @ORM\Column(name="ratingAverage", type="integer", nullable=false)
      */
-    private $ratingaverage;
+    public $ratingaverage;
 
     /**
      * @var int
      *
      * @ORM\Column(name="popularity", type="integer", nullable=false)
      */
-    private $popularity;
+    public $popularity;
 
     /**
      * @var float|null
      *
      * @ORM\Column(name="averageProductPrice", type="float", precision=10, scale=0, nullable=true)
      */
-    private $averageproductprice;
+    public $averageproductprice;
 
     /**
      * @var float|null
      *
      * @ORM\Column(name="deliveryCosts", type="float", precision=10, scale=0, nullable=true)
      */
-    private $deliverycosts;
+    public $deliverycosts;
 
     /**
      * @var float|null
      *
      * @ORM\Column(name="minimumOrderAmount", type="float", precision=10, scale=0, nullable=true)
      */
-    private $minimumorderamount;
+    public $minimumorderamount;
 
     public function getId(): ?string
     {

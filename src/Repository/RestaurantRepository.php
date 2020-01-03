@@ -4,14 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Restaurants;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+Use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @method Restaurants|null find($id, $lockMode = null, $lockVersion = null)
- * @method Restaurants|null findOneBy(array $criteria, array $orderBy = null)
- * @method Restaurants[]    findAll()
- * @method Restaurants[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class RestaurantRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -19,32 +13,32 @@ class RestaurantRepository extends ServiceEntityRepository
         parent::__construct($registry, Restaurants::class);
     }
 
-    // /**
-    //  * @return Restaurants[] Returns an array of Restaurants objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function fetchData($sortBy, $searchBy = '')
     {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
+        $entityManager = $this->getEntityManager();
+        $sortValues = [
+            'bestmatch' => 'bestMatch',
+            'newest' => 'newestScore',
+            'ratingaverage' => 'ratingAverage',
+            'popularity' => 'popularity',
+            'averageproductprice' => 'averageProductPrice',
+            'deliverycosts' => 'deliveryCosts',
+            'minimumorderamountcosts' => 'minimumOrderAmount'
+        ];
+        if ($sortBy) {
+            $value = preg_replace('/\s/', '', $sortBy);
+            isset($sortValues[$value]) && $sortBy = strtolower($sortValues[$value]);
+        } else {
+            $sortBy = 'open';
+        }
+        $query = $entityManager->createQueryBuilder()
+            ->select('r')
+            ->from(Restaurants::class, 'r')
+            ->where('r.name LIKE :searchBy')
+            ->setParameter('searchBy', "%$searchBy%")
+            ->orderBy("r.$sortBy", 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
+        return $query;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Restaurants
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
