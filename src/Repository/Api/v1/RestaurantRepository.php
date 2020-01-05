@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Api\v1;
 
-use App\Entity\Restaurants;
+use App\Entity\Api\v1\Restaurants;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 Use Doctrine\Persistence\ManagerRegistry;
 

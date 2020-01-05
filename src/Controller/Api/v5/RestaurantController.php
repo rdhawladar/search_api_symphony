@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Controller\Api\v1;
+namespace App\Controller\Api\v5;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Api\v1\Restaurants;
-use FOS\RestBundle\Controller\Annotations\Version;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use App\Entity\Api\v5\Restaurants;
 
 /**
  * Restaurants controller.
- * @Route("/api/v1", name="api_")
+ * @Route("/api/v5", name="api_")
  */
 class RestaurantController extends AbstractController
 {
@@ -35,6 +35,8 @@ class RestaurantController extends AbstractController
             'sorty_by' => "Data sorted By '$sortBy'",
             'total' => count($restaurants),
             'data' => $restaurants
-        ], Response::HTTP_OK);
+        ], Response::HTTP_OK, [], [
+            ObjectNormalizer::GROUPS => ['v5']
+        ]);
     }
 }

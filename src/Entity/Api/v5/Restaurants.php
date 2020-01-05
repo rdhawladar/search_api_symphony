@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Api\v5;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Restaurants
  *
- * @ORM\Entity(repositoryClass="App\Repository\RestaurantRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Api\v5\RestaurantRepository")
  */
 class Restaurants
 {
@@ -18,147 +20,149 @@ class Restaurants
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    public $id;
+    private $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=false)
+     * @SerializedName("RestaurantName")
+     * @Groups({"v5"})
      */
-    public $name;
+    private $name;
 
     /**
      * @var string
      *
      * @ORM\Column(name="branch", type="string", length=255, nullable=false)
      */
-    public $branch;
+    private $branch;
 
     /**
      * @var string
      *
      * @ORM\Column(name="phone", type="string", length=255, nullable=false)
      */
-    public $phone;
+    private $phone;
 
     /**
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=false)
      */
-    public $email;
+    private $email;
 
     /**
      * @var string
      *
      * @ORM\Column(name="logo", type="string", length=255, nullable=false)
      */
-    public $logo;
+    private $logo;
 
     /**
      * @var string
      *
      * @ORM\Column(name="address", type="string", length=255, nullable=false)
      */
-    public $address;
+    private $address;
 
     /**
      * @var string
      *
      * @ORM\Column(name="housenumber", type="string", length=255, nullable=false)
      */
-    public $housenumber;
+    private $housenumber;
 
     /**
      * @var string
      *
      * @ORM\Column(name="postcode", type="string", length=255, nullable=false)
      */
-    public $postcode;
+    private $postcode;
 
     /**
      * @var string
      *
      * @ORM\Column(name="city", type="string", length=255, nullable=false)
      */
-    public $city;
+    private $city;
 
     /**
      * @var string
      *
      * @ORM\Column(name="latitude", type="string", length=255, nullable=false)
      */
-    public $latitude;
+    private $latitude;
 
     /**
      * @var string
      *
      * @ORM\Column(name="longitude", type="string", length=255, nullable=false)
      */
-    public $longitude;
+    private $longitude;
 
     /**
      * @var string
      *
      * @ORM\Column(name="url", type="string", length=255, nullable=false)
      */
-    public $url;
+    private $url;
 
     /**
      * @var int
      *
      * @ORM\Column(name="open", type="integer", nullable=false)
      */
-    public $open;
+    private $open;
 
     /**
      * @var int
      *
      * @ORM\Column(name="bestMatch", type="integer", nullable=false)
      */
-    public $bestmatch;
+    private $bestmatch;
 
     /**
      * @var int
      *
      * @ORM\Column(name="newestScore", type="integer", nullable=false)
      */
-    public $newestscore;
+    private $newestscore;
 
     /**
      * @var int
      *
      * @ORM\Column(name="ratingAverage", type="integer", nullable=false)
      */
-    public $ratingaverage;
+    private $ratingaverage;
 
     /**
      * @var int
      *
      * @ORM\Column(name="popularity", type="integer", nullable=false)
      */
-    public $popularity;
+    private $popularity;
 
     /**
      * @var float|null
      *
      * @ORM\Column(name="averageProductPrice", type="float", precision=10, scale=0, nullable=true)
      */
-    public $averageproductprice;
+    private $averageproductprice;
 
     /**
      * @var float|null
      *
      * @ORM\Column(name="deliveryCosts", type="float", precision=10, scale=0, nullable=true)
      */
-    public $deliverycosts;
+    private $deliverycosts;
 
     /**
      * @var float|null
      *
      * @ORM\Column(name="minimumOrderAmount", type="float", precision=10, scale=0, nullable=true)
      */
-    public $minimumorderamount;
+    private $minimumorderamount;
 
     public function getId(): ?string
     {
