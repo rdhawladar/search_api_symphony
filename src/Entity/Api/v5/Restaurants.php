@@ -4,7 +4,6 @@ namespace App\Entity\Api\v5;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\SerializedName;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Restaurants
@@ -27,7 +26,6 @@ class Restaurants
      *
      * @ORM\Column(type="string", length=255, nullable=false)
      * @SerializedName("RestaurantName")
-     * @Groups({"v5"})
      */
     private $name;
 
