@@ -3,6 +3,7 @@
 namespace App\Entity\Api\v1;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * Restaurants
@@ -24,6 +25,7 @@ class Restaurants
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=false)
+     * @SerializedName("RestaurantName")
      */
     private $name;
 

@@ -8,7 +8,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Api\v1\Restaurants;
-use FOS\RestBundle\Controller\Annotations\Version;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * Restaurants controller.
@@ -25,16 +28,32 @@ class RestaurantController extends AbstractController
     public function getMovieAction(Request $request)
     {
         $message = 'Data fetched successfully!';
-        $sortBy = 'open';
+        $sortBy = $request->get('sort_by');
+        $searchBy = $request->get('search_by');
+        
+        if ($sortBy && $sortBy != 'open') {
+            $sortBy = $this->getDoctrine()
+                ->getRepository(Restaurants::class)
+                ->sortByGenerator($sortBy);
+        } else {
+            $sortBy = 'open';
+        }
 
         $restaurants = $this->getDoctrine()
             ->getRepository(Restaurants::class)
-            ->fetchData($request->get('sort_by'), $request->get('search_by'));
-        return $this->json([
+            ->fetchData($sortBy, $searchBy);
+
+        $result = [
             'message' => $message,
-            'sorty_by' => "Data sorted By '$sortBy'",
+            'sort_by' => "Data sorted By '$sortBy'",
             'total' => count($restaurants),
             'data' => $restaurants
-        ], Response::HTTP_OK);
+        ];
+        $encoders    = [new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+        $serializer  = new Serializer($normalizers, $encoders);
+        $result = $serializer->serialize($result, 'json');
+
+        return JsonResponse::fromJsonString($result, Response::HTTP_OK);
     }
 }

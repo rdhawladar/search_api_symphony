@@ -2,7 +2,7 @@
 
 namespace App\Controller\Api\v5;
 
-use App\Entity\Api\v5\Restaurants;
+use App\Entity\Api\v1\Restaurants;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,16 +37,14 @@ class RestaurantController extends AbstractController
         $encoders    = [new JsonEncoder()];
         $normalizers = [new ObjectNormalizer()];
         $serializer  = new Serializer($normalizers, $encoders);
-        $restaurants = $serializer->serialize($restaurants, 'json');
-        return JsonResponse::fromJsonString($restaurants, 400);
-        return $this->json($restaurants);
+        // $restaurants = $serializer->serialize($restaurants, 'json');
+        // return JsonResponse::fromJsonString($restaurants, 400);
+        // return $this->json($restaurants);
         return $this->json([
             'message'  => $message,
             'sorty_by' => "Data sorted By '$sortBy'",
-            // 'total' => count($restaurants),
+            'total' => count($restaurants),
             'data'     => $restaurants,
-        ], Response::HTTP_OK, [], [
-            // ObjectNormalizer::GROUPS => ['v5']
-        ]);
+        ], Response::HTTP_OK);
     }
 }

@@ -4,7 +4,7 @@ namespace App\Repository\Api\v1;
 
 use App\Entity\Api\v1\Restaurants;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-Use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 class RestaurantRepository extends ServiceEntityRepository
 {
@@ -13,24 +13,10 @@ class RestaurantRepository extends ServiceEntityRepository
         parent::__construct($registry, Restaurants::class);
     }
 
-    public function fetchData($sortBy, $searchBy = '')
+    public function fetchData($sortBy, $searchBy)
     {
         $entityManager = $this->getEntityManager();
-        $sortValues = [
-            'bestmatch' => 'bestMatch',
-            'newest' => 'newestScore',
-            'ratingaverage' => 'ratingAverage',
-            'popularity' => 'popularity',
-            'averageproductprice' => 'averageProductPrice',
-            'deliverycosts' => 'deliveryCosts',
-            'minimumorderamountcosts' => 'minimumOrderAmount'
-        ];
-        if ($sortBy) {
-            $value = preg_replace('/\s/', '', $sortBy);
-            isset($sortValues[$value]) && $sortBy = strtolower($sortValues[$value]);
-        } else {
-            $sortBy = 'open';
-        }
+
         $query = $entityManager->createQueryBuilder()
             ->select('r')
             ->from(Restaurants::class, 'r')
@@ -40,5 +26,23 @@ class RestaurantRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
         return $query;
+    }
+    public function sortByGenerator($sortBy)
+    {
+        dd($this->container);
+        $sortValues = [
+            'bestmatch' => 'bestMatch',
+            'newest' => 'newestScore',
+            'ratingaverage' => 'ratingAverage',
+            'popularity' => 'popularity',
+            'averageproductprice' => 'averageProductPrice',
+            'deliverycosts' => 'deliveryCosts',
+            'minimumorderamountcosts' => 'minimumOrderAmount'
+        ];
+        $value = preg_replace('/\s/', '', $sortBy);
+        isset($sortValues[$value]) ?
+            $sortBy = strtolower($sortValues[$value]) :
+            $sortBy = false;
+        return $sortBy;
     }
 }
