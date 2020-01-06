@@ -13,11 +13,16 @@ class RestaurantRepository extends ServiceEntityRepository
         parent::__construct($registry, Restaurants::class);
     }
 
+    /**
+     * Query for data from restaurants table &
+     * Filter and search by query parameter if exists
+     *
+     * @return Array
+     */
     public function fetchData($sortBy, $searchBy)
     {
-        $entityManager = $this->getEntityManager();
-
-        $query = $entityManager->createQueryBuilder()
+        return $this->getEntityManager()
+            ->createQueryBuilder()
             ->select('r')
             ->from(Restaurants::class, 'r')
             ->where('r.name LIKE :searchBy')
@@ -25,11 +30,16 @@ class RestaurantRepository extends ServiceEntityRepository
             ->orderBy("r.$sortBy", 'ASC')
             ->getQuery()
             ->getResult();
-        return $query;
     }
+
+    /**
+     * Generate column name from sort by request query &
+     * Checks if sortby exist in the sort list / column
+     *
+     * @return String / boolean
+     */
     public function sortByGenerator($sortBy)
     {
-        dd($this->container);
         $sortValues = [
             'bestmatch' => 'bestMatch',
             'newest' => 'newestScore',

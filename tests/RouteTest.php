@@ -1,20 +1,47 @@
 <?php
 
+// tests/Repository/RestaurantRepositoryTest.php
 namespace tests;
 
-use PHPUnit\Framework\TestCase;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Entity\Api\v1\Restaurants;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class RouteTest extends TestCase
+class RestaurantsRepositoryTest extends KernelTestCase
 {
     /**
-     * Route test -> home  url
-     *
-     * @return void
+     * @var \Doctrine\ORM\EntityManager
      */
-    public function testHomeRoute()
+    private $entityManager;
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function setUp()
     {
-        $this->assertTrue(true);
+        $kernel = self::bootKernel();
+
+        $this->entityManager = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager();
     }
 
+    public function testSearchByRestaurantsName()
+    {
+        $restaurants = $this->entityManager
+            ->getRepository(\App\Entity\Api\v1\Restaurants::class)
+            ->findByName('foo');
+
+        $this->assertCount(0, $restaurants);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+/*    protected function tearDown()
+    {
+        parent::tearDown();
+
+        $this->entityManager->close();
+        $this->entityManager = null; // avoid memory leaks
+    }*/
 }

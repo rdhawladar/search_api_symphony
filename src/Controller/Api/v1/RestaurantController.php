@@ -25,7 +25,7 @@ class RestaurantController extends AbstractController
      *
      * @return Response
      */
-    public function getMovieAction(Request $request)
+    public function getRestaurantsAction(Request $request)
     {
         $message = 'Data fetched successfully!';
         $sortBy = $request->get('sort_by');
@@ -35,25 +35,23 @@ class RestaurantController extends AbstractController
             $sortBy = $this->getDoctrine()
                 ->getRepository(Restaurants::class)
                 ->sortByGenerator($sortBy);
-        } else {
-            $sortBy = 'open';
-        }
+        } 
+        !$sortBy && $sortBy = 'open';
 
         $restaurants = $this->getDoctrine()
             ->getRepository(Restaurants::class)
             ->fetchData($sortBy, $searchBy);
-
         $result = [
             'message' => $message,
             'sort_by' => "Data sorted By '$sortBy'",
             'total' => count($restaurants),
+            'code' => Response::HTTP_OK,
             'data' => $restaurants
         ];
         $encoders    = [new JsonEncoder()];
         $normalizers = [new ObjectNormalizer()];
         $serializer  = new Serializer($normalizers, $encoders);
         $result = $serializer->serialize($result, 'json');
-
         return JsonResponse::fromJsonString($result, Response::HTTP_OK);
     }
 }

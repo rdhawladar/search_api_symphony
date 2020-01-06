@@ -25,26 +25,36 @@ class RestaurantController extends AbstractController
      *
      * @return Response
      */
-    public function getMovieAction(Request $request)
+    public function getRestaurantsAction(Request $request)
     {
         $message = 'Data fetched successfully!';
-        $sortBy  = 'open';
+        $sortBy = $request->get('sort_by');
+        $searchBy = $request->get('search_by');
+        
+        if ($sortBy && $sortBy != 'open') {
+            $sortBy = $this->getDoctrine()
+                ->getRepository(Restaurants::class)
+                ->sortByGenerator($sortBy);
+        } 
+        !$sortBy && $sortBy = 'open';
 
         $restaurants = $this->getDoctrine()
             ->getRepository(Restaurants::class)
-            ->fetchData($request->get('sort_by'), $request->get('search_by'));
-
+            ->fetchData($sortBy, $searchBy);
+        $result = [
+            'message' => $message,
+            'sort_by' => "Data sorted By '$sortBy'",
+            'total' => count($restaurants),
+            'code' => Response::HTTP_OK,
+            'data' => $restaurants
+        ];
+        if ($request->get('client_version') == '5.12.300') {
+            return $this->json($result, Response::HTTP_OK);
+        }
         $encoders    = [new JsonEncoder()];
         $normalizers = [new ObjectNormalizer()];
         $serializer  = new Serializer($normalizers, $encoders);
-        // $restaurants = $serializer->serialize($restaurants, 'json');
-        // return JsonResponse::fromJsonString($restaurants, 400);
-        // return $this->json($restaurants);
-        return $this->json([
-            'message'  => $message,
-            'sorty_by' => "Data sorted By '$sortBy'",
-            'total' => count($restaurants),
-            'data'     => $restaurants,
-        ], Response::HTTP_OK);
+        $result = $serializer->serialize($result, 'json');
+        return JsonResponse::fromJsonString($result, Response::HTTP_OK);
     }
 }
